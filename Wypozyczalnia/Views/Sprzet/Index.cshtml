@@ -1,0 +1,99 @@
+﻿@model IEnumerable<Wypozyczalnia.Models.SprzetModel>
+
+@{
+    ViewData["Title"] = "Dostępny sprzęt";
+}
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+<center><h1>Cały nasz asortyment</h1></center>
+<hr />
+
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Create", "Sprzet")'">+ Dodaj nowy sprzęt</button>
+    </p>
+}
+@if (!User.IsInRole("Admin"))//pokazuje wszystkim tylko nie adminowi
+{
+    <div class="d-grid gap-2">
+        <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Index", "Wypozyczenie")'">Wypożyczaj już teraz!</button>
+    </div>
+}
+
+
+<br />
+<center>
+    <button class="btn btn-warning" type="button" onclick="location.href='@Url.Action("Index", "Sprzet")'">Wszystkie</button>
+    <button class="btn btn-success" type="button" onclick="location.href='@Url.Action("Index", "Sprzet",new {status=1})'">Dostepne</button>
+    <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("Index", "Sprzet",new {status=0})'">Niedostepne</button>
+</center>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SprzetId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SprzetNazwa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Kategoria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CenaZaDzien)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CzyDostepne)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+             <td>
+                    @Html.DisplayFor(modelItem => item.SprzetId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SprzetNazwa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kategoria.KategoriaNazwa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CenaZaDzien)
+            </td>
+            <td>
+                    @if (item.CzyDostepne)
+                    {
+                        @:Dostepne
+                    }else
+                    {
+                        @:Niedostepne
+                    }
+              
+            </td>
+            
+                @if (User.IsInRole("Admin")){
+            <td>
+
+
+
+                <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Edit", "Sprzet", new { id = @item.SprzetId })'">Edytuj</button>
+                <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("Delete", "Sprzet", new { id = @item.SprzetId })'">Usuń</button>
+
+
+
+
+
+            </td>
+                }
+        </tr>
+}
+    </tbody>
+</table>

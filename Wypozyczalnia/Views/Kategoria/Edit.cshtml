@@ -1,0 +1,36 @@
+﻿@model Wypozyczalnia.Models.KategoriaModel
+
+@{
+    ViewData["Title"] = "Edytuj kategorię";
+}
+
+<h3>Czy na pewno chcesz edytować tę kategorie?</h3>
+<hr />
+
+<h4>Kategoria: <u>@Html.DisplayFor(model => model.KategoriaNazwa)</u> </h4>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="KategoriaId" />
+            <div class="form-group">
+                <label asp-for="KategoriaNazwa" class="control-label"></label>
+                <input asp-for="KategoriaNazwa" class="form-control" />
+                <span asp-validation-for="KategoriaNazwa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <br />
+                <input type="submit" value="Zapisz" class="btn btn-primary" /> 
+                <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("Index", "Kategoria")'">Powrót do listy</button>
+
+            </div>
+        </form>
+    </div>
+</div>
+<br />
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,50 @@
+﻿@model Wypozyczalnia.Models.SprzetModel
+
+@{
+    ViewData["Title"] = "Edytuj sprzęt";
+}
+
+<h3>Czy na pewno chcesz edytować ten sprzęt?</h3>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SprzetId" />
+            <div class="form-group">
+                <label asp-for="SprzetNazwa" class="control-label"></label>
+                <input asp-for="SprzetNazwa" class="form-control" />
+                <span asp-validation-for="SprzetNazwa" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KategoriaId" class="control-label"></label>
+                <select asp-for="KategoriaId" class="form-control" asp-items="ViewBag.KategoriaId"></select>
+                <span asp-validation-for="KategoriaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CenaZaDzien" class="control-label"></label>
+                <input asp-for="CenaZaDzien" class="form-control" />
+                <span asp-validation-for="CenaZaDzien" class="text-danger"></span>
+            </div><br />
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CzyDostepne" /> @Html.DisplayNameFor(model => model.CzyDostepne)
+                </label>
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Zapisz zmiany" class="btn btn-primary" />
+                <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("Index", "Sprzet")'">Powrót do listy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    
+   
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

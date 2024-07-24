@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Wypozyczalnia.Models.KategoriaModel>
+
+@{
+    ViewData["Title"] = "Lista kategorii";//nazwa wyświtlana w karcie przeglądarki
+}
+
+<center><h1>Lista wszystkich kategorii</h1></center>
+<hr />
+
+<p>
+    <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Create", "Kategoria")'">+ Dodaj nową kategorię</button>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.KategoriaNazwa)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.KategoriaNazwa)
+            </td>
+            <td>
+                    <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Edit", "Kategoria", new { id = @item.KategoriaId })'">Edytuj</button>
+                    <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("Delete", "Kategoria", new { id = @item.KategoriaId })'">Usuń</button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Wypozyczalnia.Models.WypozyczenieModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<center><h1>Lista wypozyczeń</h1></center>
+<hr />
+<p>
+    <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Create", "Wypozyczenie")'">+ Nowe Wypozyczenie</button>
+</p>
+<br />
+<center>
+
+    <button class="btn btn-warning" type="button" onclick="location.href='@Url.Action("Index", "Wypozyczenie")'">Wszystkie</button>
+    <button class="btn btn-success" type="button" onclick="location.href='@Url.Action("Index", "Wypozyczenie",new {status=1})'">Aktywne</button>
+    <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("Index", "Wypozyczenie",new {status=0})'">Nieaktywne</button>
+
+</center>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <center> @Html.DisplayNameFor(model => model.Sprzet)</center>
+            </th>
+            <th>
+                <center> @Html.DisplayNameFor(model => model.DataWypozyczenia)</center>
+            </th>
+            <th>
+                <center> @Html.DisplayNameFor(model => model.DataZwrotu)</center>
+            </th>
+            <th>
+                <center> Wypożyczający</center>
+            </th>
+            <th>
+                <center>@Html.DisplayNameFor(model => model.CenaCalkowita)</center>
+            </th>
+            <th>
+                <center> @Html.DisplayNameFor(model => model.Status)</center>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                    <center>@Html.DisplayFor(modelItem => item.Sprzet.SprzetNazwa)</center>
+            </td>
+            <td>
+                    <center>@Html.DisplayFor(modelItem => item.DataWypozyczenia)</center>
+            </td>
+            <td>
+                    <center> @Html.DisplayFor(modelItem => item.DataZwrotu)</center>
+            </td>
+            <td>
+                    <center>@Html.DisplayFor(modelItem => item.User.UserName)</center>
+            </td>
+            <td>
+                    <center> @Html.DisplayFor(modelItem => item.CenaCalkowita)</center>
+            </td>
+            <td>
+                
+                    @if (item.Status)
+                    {
+                        @:Aktywne
+                    }
+                    else
+                    {
+                        @:Nieaktywne
+                    }
+            </td>
+            
+            <td>
+                    @if (item.Status)
+                    {
+                    <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Edit", "Wypozyczenie", new { id = @item.WypozyczenieId })'">Edytuj</button>
+                        @if (User.IsInRole("Admin"))
+                        {
+                    <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("Delete", "Wypozyczenie", new { id = @item.WypozyczenieId })'">Usuń</button>   
+                    <button class="btn btn-success" type="button" onclick="location.href='@Url.Action("Zakoncz", "Wypozyczenie", new { id = @item.WypozyczenieId })'">Zakończ</button>
+                    <button class="btn btn-warning" type="button" onclick="location.href='@Url.Action("Wyslij", "Email", new { id = @item.WypozyczenieId })'">Wyślij upomnienie</button>
+                        }}
+                    </td>
+                
+        </tr>
+}
+    </tbody>
+</table>

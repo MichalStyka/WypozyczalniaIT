@@ -1,0 +1,24 @@
+﻿@model Wypozyczalnia.Models.KategoriaModel
+
+@{
+    ViewData["Title"] = "Usuń kategorie";
+}
+
+
+
+<h3>Czy na pewno chcesz usunąć tę kategorie?</h3>
+<hr />
+<div>
+    <h4>Kategoria: <u>@Html.DisplayFor(model => model.KategoriaNazwa)</u> </h4>
+</br>
+    
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="KategoriaId" />
+        <input type="submit" value="Usuń" class="btn btn-danger" />
+     
+   
+        <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Index", "Kategoria")'">Powrót do listy</button>
+
+    </form>
+</div>

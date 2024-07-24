@@ -1,0 +1,63 @@
+﻿@model Wypozyczalnia.Models.WypozyczenieModel
+
+@{
+    ViewData["Title"] = "Usuwanie wypożyczenia";
+}
+
+<h1>Czy na pewno chcesz usunąć to wypozyczenie?</h1>
+<h3>(po usunięciu,sprzęt zostanie ponowanie zwolniony do użytku)</h3>
+<div>
+    <hr />
+
+
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Sprzet)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Sprzet.SprzetNazwa)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DataWypozyczenia)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DataWypozyczenia)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DataZwrotu)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DataZwrotu)
+        </dd>
+        <dt class = "col-sm-2">
+            Wypożyczający
+           
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.User.UserName)
+        </dd>
+        <dt class = "col-sm-2">
+            Cena przewidywalna
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CenaCalkowita)
+        </dd>
+
+        <dt class="col-sm-2">
+            Cena do zapłaty
+        </dt>
+        <dd class="col-sm-10">
+            @ViewBag.RzeczywistyKoszt zł
+        </dd>
+
+
+
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="WypozyczenieId" />
+        <input type="submit" value="Usuń" class="btn btn-danger" />
+        <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Index", "Wypozyczenie")'">Powrót do listy</button>
+        
+    </form>
+</div>

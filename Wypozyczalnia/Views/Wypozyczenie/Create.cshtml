@@ -1,0 +1,188 @@
+﻿@model Wypozyczalnia.Models.WypozyczenieModel
+
+@{
+    ViewData["Title"] = "Wypozycz sprzęt";
+}
+
+<h1>Dokonaj wypozyczenia sprzętu</h1>
+<hr />
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SprzetId" class="control-label">Sprzęt</label>
+                <select asp-for="SprzetId" class="form-control" asp-items="ViewBag.SprzetId" id="sprzetSelect"></select>
+                <span asp-validation-for="SprzetId" class="text-danger"></span>
+
+
+            </div>
+            <div class="form-group">
+                <label asp-for="DataWypozyczenia" class="control-label"></label>
+                <input asp-for="DataWypozyczenia" class="form-control" id="dataWypozyczeniaInput" />
+                <span asp-validation-for="DataWypozyczenia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataZwrotu" class="control-label"></label>
+                <input asp-for="DataZwrotu" class="form-control" id="dataZwrotuInput" />
+                <span asp-validation-for="DataZwrotu" class="text-danger"></span>
+            </div>
+           
+
+
+
+            <div class="form-group">
+                <label asp-for="CenaCalkowita" class="control-label"></label>
+                <input asp-for="CenaCalkowita" class="form-control" id="cenaCalkowitaInput" readonly />
+                <span asp-validation-for="CenaCalkowita" class="text-danger"></span>
+            </div>
+
+
+
+
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Wypożycz" class="btn btn-primary" />
+                <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("Index", "Wypozyczenie")'">Powrót do listy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+@if (ViewData["Errors"] != null)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in ViewData["Errors"] as List<string>)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </div>
+}
+
+
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+     <script>
+        // Get the input elements
+        var dataWypozyczeniaInput = document.getElementById('dataWypozyczeniaInput');
+        var dataZwrotuInput = document.getElementById('dataZwrotuInput');
+
+        // Attach change event listeners
+        dataWypozyczeniaInput.addEventListener('change', validateDates);
+        dataZwrotuInput.addEventListener('change', validateDates);
+
+        function validateDates() {
+            var dataWypozyczenia = new Date(dataWypozyczeniaInput.value);
+            var dataZwrotu = new Date(dataZwrotuInput.value);
+            var today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            var isValid = true;
+            var errorMessage = '';
+
+            if (dataWypozyczenia < today) {
+                isValid = false;
+                errorMessage += 'Data wypożyczenia nie może być wcześniejsza niż dzisiaj.\n';
+            }
+
+            if (dataZwrotu <= dataWypozyczenia) {
+                isValid = false;
+                errorMessage += 'Data zwrotu musi być późniejsza niż data wypożyczenia.\n';
+            }
+
+            if (!isValid) {
+                alert(errorMessage);
+                // Optionally, you can focus back on the incorrect input field
+                if (dataWypozyczenia < today) {
+                    dataWypozyczeniaInput.focus();
+                } else {
+                    dataZwrotuInput.focus();
+                }
+            }
+        }
+    </script> 
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () { // Kod uruchamia się po załadowaniu całej stony HTML
+
+            //pobieranie referencji do elementów
+            const sprzetSelect = document.getElementById('sprzetSelect');
+            const dataWypozyczeniaInput = document.getElementById('dataWypozyczeniaInput');
+            const dataZwrotuInput = document.getElementById('dataZwrotuInput');
+            const cenaCalkowitaInput = document.getElementById('cenaCalkowitaInput');
+            //Pobiera słownik ViewBag.CenySprzetu z kontrolera, który zawiera ceny sprzętu, a następnie serializuje go do JSONa
+            const cenySprzetu = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.CenySprzetu));
+
+
+            //Aktualizowanie ceny
+            function updateCenaCalkowita() {
+
+                //przypisanie wartości
+                const sprzetId = sprzetSelect.value;
+                const dataWypozyczenia = new Date(dataWypozyczeniaInput.value);
+                const dataZwrotu = new Date(dataZwrotuInput.value);
+
+                if (sprzetId && dataWypozyczenia && dataZwrotu) {//sprawdza czy sprzet-wybrany , czy daty sa wybrane i czy data zwrotu jest pozneijsza niz data wypozyczenia
+                    const cenaZaDzien = cenySprzetu[sprzetId];
+
+
+                    //Obliczanie ilości dni wypozyczenia,(1000 * 60 * 60 * 24) to liczba milisekund w jednym dniu,a
+                    // podzielenie różnicy w milisekundach przez liczbę milisekund w dniu daje liczbę dni.
+                    //Math.ceil zaokrągla liczby całkowitej
+
+                    const liczbaDni = Math.ceil((dataZwrotu - dataWypozyczenia) / (1000 * 60 * 60 * 24));
+                    //obliczanie ceny
+                    const cenaCalkowita = liczbaDni * cenaZaDzien;
+                    //zeby miało 2 miejsca po przecinku
+                    cenaCalkowitaInput.value = cenaCalkowita.toFixed(2);
+                } else {
+                    cenaCalkowitaInput.value = '';
+                }
+            }
+            // Dodanie event listenerów do elementów
+            sprzetSelect.addEventListener('change', updateCenaCalkowita);
+            dataWypozyczeniaInput.addEventListener('change', updateCenaCalkowita);
+            dataZwrotuInput.addEventListener('change', updateCenaCalkowita);
+
+            // Dodanie ponownego przypisania event listenerów po błędzie walidacji
+            document.addEventListener('ajaxComplete', function () {
+                sprzetSelect.addEventListener('change', updateCenaCalkowita);
+                dataWypozyczeniaInput.addEventListener('change', updateCenaCalkowita);
+                dataZwrotuInput.addEventListener('change', updateCenaCalkowita);
+            });
+
+        });
+    </script>
+
+
+
+
+    
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+

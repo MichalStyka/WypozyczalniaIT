@@ -1,0 +1,51 @@
+﻿@model Wypozyczalnia.Models.SprzetModel
+
+@{
+    ViewData["Title"] = "Usuń ten sprzęt";
+}
+
+<h3>Czy na pewno chcesz usunąć ten sprzęt?</h3>
+<div>
+    <hr />
+
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SprzetNazwa)
+        </dt>
+        <dd class = "col-sm-10">
+            <u> @Html.DisplayFor(model => model.SprzetNazwa)</u>
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Kategoria)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Kategoria.KategoriaNazwa)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CenaZaDzien)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CenaZaDzien)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CzyDostepne)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (Model.CzyDostepne)
+            {
+                @:Dostepne
+            }
+            else
+            {
+                @:Niedostepne
+            }
+           
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="SprzetId" />
+        <input type="submit" value="Usuń" class="btn btn-danger" /> 
+        <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Index", "Sprzet")'">Powrót do listy</button>
+    </form>
+</div>

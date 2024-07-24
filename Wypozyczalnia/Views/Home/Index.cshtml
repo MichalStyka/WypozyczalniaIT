@@ -1,0 +1,76 @@
+﻿@{
+    ViewData["Title"] = "Strona główna wypożyczalni";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Witaj w naszej wypożyczalni sprzętu IT</h1>
+    <hr />
+    <h3>
+        Szybko , łatwo i tanio
+    </h3>
+    <br />
+
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card h-100 mb-3" style="width: 18rem;">
+                    <img src="photos/side-view-hand-using-office-printer.jpg" class="card-img-top" >
+                    <div class="card-body">
+                        <h5 class="card-title">Nasz asortyment</h5>
+                        <p class="card-text">Na stanie posiadamy szeroki zakres sprzetu IT od monitorów aż po drukarki.A to wszystko w bardzo niskich cenach!</p>
+                        
+                        <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Index", "Sprzet")'">Sprawdź nasz asortyment</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex">
+                <div class="card h-100 w-100 mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Kim jesteśmy?</h5>
+                        <hr />
+                        <p class="card-text">Wypożyczamy laptopy, komputery stacjonarne, drukarki, skanery, monitory i inne urządzenia IT. Wszystko to w konkurencyjnych cenach i na elastycznych warunkach.</p><br />
+                        
+
+
+
+                        <ul class="list-group">
+                            <li class="list-group-item" style="background-color:whitesmoke" ><h2>Dlaczego warto wybrać nas?</h2></li>
+                            <li class="list-group-item">Wysoka jakość sprzętu</li>
+                            <li class="list-group-item">Elastyczne warunki wynajmu</li>
+                            <li class="list-group-item">Profesjonalna obsługa</li>
+                            <li class="list-group-item">Wsparcie techniczne</li>
+                        </ul>
+
+                        <br />
+                        <hr />
+                        <button class="btn btn-success" type="button" onclick="location.href='@Url.Action("Index", "Wypozyczenie")'">Wypożycz już teraz!</button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card h-100 mb-3" style="width: 18rem;">
+                    <img src="photos/beauty-with-friend-man-woman-communicate-students-study-computer-science.jpg" class="card-img-top" >
+                    <div class="card-body">
+                        <h5 class="card-title">Zacznij współprace z nami już teraz!</h5>
+                        <p class="card-text">Tutaj możesz łatwo i szybko zrobić konto i mieć dostęp do swoich wypożyczeń!</p>
+                        
+                        <button class="btn btn-primary" type="button" onclick="location.href='@Url.Action("Index", "Wypozyczenie")'">Dołącz już teraz!</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .GlownaLista{
+        list-style-type: none; 
+        padding: 0; 
+        margin: 0; 
+    }
+
+
+</style>

@@ -1,0 +1,35 @@
+﻿@model Wypozyczalnia.Models.KategoriaModel
+
+@{
+    ViewData["Title"] = "Stwórz nową kategorię";
+}
+
+<h1>Utwórz nową kategorię: </h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="KategoriaNazwa" class="control-label"></label>
+                <input asp-for="KategoriaNazwa" class="form-control" />
+                <span asp-validation-for="KategoriaNazwa" class="text-danger"></span>
+            </div>
+            </br>
+            <div class="form-group">
+                <input type="submit" value="Utwórz" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+   </br>
+    <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("Index", "Kategoria")'">Powrót do listy</button>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

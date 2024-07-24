@@ -1,0 +1,61 @@
+﻿@model Wypozyczalnia.Models.WypozyczenieModel
+
+@{
+    ViewData["Title"] = "Zakonczenie wypożyczenia";
+}
+
+<h3>Czy na pewno chcesz zakończyć to wypożyczenie?</h3>
+<hr />
+
+
+
+<div class="row">
+    <div class="col-md-4">
+        
+
+        <form asp-action="Zakoncz">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <label class="control-label">Nazwa sprzętu</label>
+            <input type="text" class="form-control" value="@Model.Sprzet.SprzetNazwa" readonly />
+
+
+            <input type="hidden" asp-for="WypozyczenieId" />
+            <input type="hidden" asp-for="SprzetId"  />
+            <input type="hidden" asp-for="UserId" />
+            <input type="hidden" asp-for="Status" />
+
+            <div class="form-group">
+                <label asp-for="DataWypozyczenia" class="control-label"></label>
+                <input asp-for="DataWypozyczenia" class="form-control"  readonly />
+                <span asp-validation-for="DataWypozyczenia" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DataZwrotu" class="control-label"></label>
+                <input asp-for="DataZwrotu" class="form-control" readonly />
+                <span asp-validation-for="DataZwrotu" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="CenaCalkowita" class="control-label"></label>
+                <input asp-for="CenaCalkowita" class="form-control" readonly />
+                <span asp-validation-for="CenaCalkowita" class="text-danger"></span>
+            </div>
+            <label class="control-label">Cena do zapłaty</label>
+            <input type="text" class="form-control" value="@ViewBag.RzeczywistyKoszt" readonly />
+
+           <br />
+            <div class="form-group">
+
+                <input type="submit" value="Zakoncz" class="btn btn-primary" />
+                <button class="btn btn-danger" type="button" onclick="location.href='@Url.Action("Index", "Wypozyczenie")'">Powrót do listy</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
